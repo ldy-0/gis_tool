@@ -1,4 +1,11 @@
 /**
+ * @module unit
+ */
+
+'use strict';
+
+
+/**
  * 度分秒转度
  * @param {Array|string} point
  * @param {Number} nub
@@ -107,11 +114,16 @@ function isLegal(point, digits = 0, checkout){
  * 计算某度的cos值
  * 修复Math.cos(90*Math.PI/180)=6.123233995736766e-17;
  * @param {Number} degree 度数
+ * @param {Number} digits 位数 
  * @return {Number}
  */
 function cos(degree, digits = 6){
 	if(isNaN(parseFloat(degree))){
 		throw new TypeError('cos argument type must be Number');
+	}
+	//16位不精确
+	if(digits < 0 || digits > 15 ){
+	  digits = 15;
 	}
 
 	return degree%90 === 0 ? 0 : Number(Math.cos(degree*Math.PI/180).toFixed(digits)) ;
@@ -119,7 +131,10 @@ function cos(degree, digits = 6){
 
 
 
-/*********************************************************************************/
+
+/**
+ * export
+ */
 module.exports = {
 	cos,
 	DtoM,
@@ -134,9 +149,6 @@ module.exports = {
 // console.log([32.136056165, 114.0420735061]);
 // console.log(DtoM([32.136164,  114.042197]));
 // console.log(DtoM([32.1418071711, 114.0486320707]));
-//
 // console.log('----------------'+DtoM([1, 1], 11));
-//
-// console.log([32.136056165, 114.0420735061]);
 // //console.log(DtoM([32.136056165, 114.0420735061], 11));
 // console.log(MtoD(DtoM([32.136056165, 114.0420735061]), 9));
