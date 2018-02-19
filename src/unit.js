@@ -57,11 +57,11 @@ function DtoDMS(degree){
  * 经纬度转千米
  * @param {Array} point 坐标点
  * @param {Number} [nub=0] 小数点后位数
- * @param {Boolean} [auto=false] 是否进行检验经纬度位置并转换
+ * @param {Boolean} [checkout=false] 是否进行检验经纬度位置并转换
  * @return {Array}
  */
-function DtoKM(point, nub = 0, auto = false){
-	let p = DtoM(point, nub, auto);
+function DtoKM(point, nub = 0, checkout = false){
+	let p = DtoM(point, nub, checkout);
 	return [p[0]/1000, p[1]/1000];
 }
 
@@ -88,6 +88,7 @@ function DtoM(point, nub = 0, checkout = false){
 	return [ Number(latitude.toFixed(nub)), Number(longitude.toFixed(nub)) ];
 }
 
+
 /**
  * 判断参数类型是否合法
  * @param {Array} point point[0]为纬度，point[1]为经度
@@ -105,7 +106,7 @@ function isLegal(point, digits = 0, checkout){
 	}
 
 	if(point[0]>90 || point[0]<-90 || point[1]>180 || point[1]<-180){
-		throw new RangeError('非法数值');
+		throw new RangeError('点坐标值不合法');
 	}
 
 }
@@ -141,7 +142,7 @@ module.exports = {
 	DtoKM,
 };
 
-
+console.log(DtoM([32.1, 111.1]));
 // console.log(DtoM([32.138073545, 114.0362319061], false));
 // console.log(DtoM([ 114.0362319061, 32.138073545], true), '-');
 // console.log(DtoDMS([ 32.138073545, 114.0362319061]), '---');
@@ -149,6 +150,6 @@ module.exports = {
 // console.log([32.136056165, 114.0420735061]);
 // console.log(DtoM([32.136164,  114.042197]));
 // console.log(DtoM([32.1418071711, 114.0486320707]));
-// console.log('----------------'+DtoM([1, 1], 11));
 // //console.log(DtoM([32.136056165, 114.0420735061], 11));
 // console.log(MtoD(DtoM([32.136056165, 114.0420735061]), 9));
+
