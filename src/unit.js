@@ -39,6 +39,7 @@ function MtoD(point, nub = 0){
 
 /**
  * 经纬度转度分秒格式
+ * Convert to degrees minutes seconds format
  * @param {Number|Array} degree
  * @return {String|Array}
 */
@@ -55,6 +56,7 @@ function DtoDMS(degree){
 
 /**
  * 经纬度转千米
+ * Convert to KM format
  * @param {Array} point 坐标点
  * @param {Number} [nub=0] 小数点后位数
  * @param {Boolean} [checkout=false] 是否进行检验经纬度位置并转换
@@ -68,6 +70,7 @@ function DtoKM(point, nub = 0, checkout = false){
 
 /**
  * 经纬度转米
+ * Convert to meter format
  * @param {Array} point 坐标点
  * @param {Number} [nub=0] 小数点后位数
  * @param {Boolean} [checkout=false] 是否进行检验经纬度位置并转换
@@ -114,6 +117,7 @@ function isLegal(point, digits = 0, checkout){
 /**
  * 计算某度的cos值
  * 修复Math.cos(90*Math.PI/180)=6.123233995736766e-17;
+ * Calculate degrees of cos value
  * @param {Number} degree 度数
  * @param {Number} digits 位数 
  * @return {Number}
@@ -140,16 +144,10 @@ module.exports = {
 	cos,
 	DtoM,
 	DtoKM,
+	DtoDMS,
 };
 
-console.log(DtoM([32.1, 111.1]));
 // console.log(DtoM([32.138073545, 114.0362319061], false));
-// console.log(DtoM([ 114.0362319061, 32.138073545], true), '-');
 // console.log(DtoDMS([ 32.138073545, 114.0362319061]), '---');
-// console.log(DtoKM([32.1360476456,  114.0420576641]));
-// console.log([32.136056165, 114.0420735061]);
-// console.log(DtoM([32.136164,  114.042197]));
-// console.log(DtoM([32.1418071711, 114.0486320707]));
-// //console.log(DtoM([32.136056165, 114.0420735061], 11));
 // console.log(MtoD(DtoM([32.136056165, 114.0420735061]), 9));
 

@@ -21,3 +21,4 @@ describe('#DtoM', ()=>{
 describe('#DtoKM', ()=>{
 	it('should return [0, 0] when value is [0, 0]', ()=>assert.deepEqual(DtoKM([0, 0]), [0, 0]) );
 });
+
