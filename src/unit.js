@@ -38,8 +38,8 @@ function MtoD(point, nub = 0){
 
 
 /**
+ * Coords convert to xx°xx'xx" format
  * 经纬度转度分秒格式
- * Convert to degrees minutes seconds format
  * @param {Number|Array} degree
  * @return {String|Array}
 */
@@ -49,82 +49,87 @@ function DtoDMS(degree){
 		return [DtoDMS(degree[0]), DtoDMS(degree[1])];
 	}
 
-	let minute = degree%1*60;
-	return `${degree.toFixed(0)}°${Math.floor(minute)}'${minute%1*60}''`;
+	let str = degree.toString().split('.')[1];
+	let minute = Number(str)/(10**(str.length-1))*6;
+	str = minute.toFixed(15).split('.')[1];
+	let second = Number(str)/(10**(str.length-1))*6;
+	return `${Math.floor(degree)}°${Math.floor(minute)}'${Math.floor(second)}"`;
 }
 
 
 /**
+ * Coords convert to KM format
  * 经纬度转千米
- * Convert to KM format
- * @param {Array} point 坐标点
- * @param {Number} [nub=0] 小数点后位数
+ * @param {Array} coords 坐标点
+ * @param {Number} [digits=0] 小数点后位数
  * @param {Boolean} [checkout=false] 是否进行检验经纬度位置并转换
  * @return {Array}
  */
-function DtoKM(point, nub = 0, checkout = false){
-	let p = DtoM(point, nub, checkout);
+function DtoKM(coords, digits = 0, checkout = false){
+	let p = DtoM(coords, digits, checkout);
 	return [p[0]/1000, p[1]/1000];
 }
 
 
 /**
+ * Coords convert to meter format
  * 经纬度转米
- * Convert to meter format
- * @param {Array} point 坐标点
- * @param {Number} [nub=0] 小数点后位数
+ * @param {Array} coords 坐标点
+ * @param {Number} [digits=0] 小数点后位数
  * @param {Boolean} [checkout=false] 是否进行检验经纬度位置并转换
  * @return {Array}
  */
-function DtoM(point, nub = 0, checkout = false){
+function DtoM(coords, digits = 0, checkout = false){
 	let last = arguments.length-1;
 	if(last === 1 && typeof arguments[last] === 'boolean'){
-		[nub, checkout] = [0, arguments[last]];
+		[digits, checkout] = [0, arguments[last]];
 	}
-	isLegal(point, nub, checkout);
+	isLegal(coords, digits, checkout);
 
-	let [latitude, longitude] = point;
+	let [latitude, longitude] = coords;
 	//先通过纬度算经度
 	longitude *= 111111.1111*cos(latitude);
 	latitude *= 111111.1111;
 
-	return [ Number(latitude.toFixed(nub)), Number(longitude.toFixed(nub)) ];
+	return [ Number(latitude.toFixed(digits)), Number(longitude.toFixed(digits)) ];
 }
 
 
 /**
+ * To determine the legality of the parameter type
  * 判断参数类型是否合法
- * @param {Array} point point[0]为纬度，point[1]为经度
+ * @param {Array} coords coords[0]为纬度，coords[1]为经度
  * @param {Number} digits
  * @param {Boolean} checkout 
+ * @inner
  */
-function isLegal(point, digits = 0, checkout){
+function isLegal(coords, digits = 0, checkout){
 
-	if(!Array.isArray(point) || typeof digits !== 'number'){
-		throw new TypeError('argument type is not legal');
+	if(!Array.isArray(coords) || typeof digits !== 'number'){
+		throw new TypeError('argument type is illegal');
 	}
 
-	if(checkout && (point[0]>90 || point[0]<-90) && (point[1]<90 || point[1]>-90)){
-		[point[1], point[0]] = [point[0], point[1]];
+	if(checkout && (coords[0]>90 || coords[0]<-90) && (coords[1]<90 || coords[1]>-90)){
+		[coords[1], coords[0]] = [coords[0], coords[1]];
 	}
 
-	if(point[0]>90 || point[0]<-90 || point[1]>180 || point[1]<-180){
-		throw new RangeError('点坐标值不合法');
+	if(coords[0]>90 || coords[0]<-90 || coords[1]>180 || coords[1]<-180){
+		throw new RangeError('coordinate values out of bounds');
 	}
 
 }
 
 /**
+ * Calculate degrees of cos value
  * 计算某度的cos值
  * 修复Math.cos(90*Math.PI/180)=6.123233995736766e-17;
- * Calculate degrees of cos value
  * @param {Number} degree 度数
  * @param {Number} digits 位数 
  * @return {Number}
  */
 function cos(degree, digits = 6){
 	if(isNaN(parseFloat(degree))){
-		throw new TypeError('cos argument type must be Number');
+		throw new TypeError('argument type must be a Number');
 	}
 	//16位不精确
 	if(digits < 0 || digits > 15 ){
