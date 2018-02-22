@@ -6,6 +6,8 @@ const cos = unit.cos;
 const DtoM = unit.DtoM;
 const DtoKM = unit.DtoKM;
 const DtoDMS = unit.DtoDMS;
+const MtoD = unit.MtoD;
+const DMStoD = unit.DMStoD;
 
 describe('unit', ()=>{
 	describe('#cos', ()=>{
@@ -16,7 +18,7 @@ describe('unit', ()=>{
 
 	describe('#DtoM', ()=>{
 		it('should return [0, 0] when value is [0, 0]', ()=>assert.deepEqual(DtoM([0, 0]), [0, 0]) );
-		it('should return [3566666.67, 10457250.47] when value is [32.1, 111.1]', ()=>assert.deepEqual(DtoM([32.1, 111.1], 2), [3566666.67, 10457250.47]) );
+		it('should return [3566666.67, 10457250.47] when value is [32.1, 111.1],2', ()=>assert.deepEqual(DtoM([32.1, 111.1], 2), [3566666.67, 10457250.47]) );
 		it('should return when [3566667, 10457250] value is [32.1, 111.1]', ()=>assert.deepEqual(DtoM([111.1, 32.1], true), [3566667, 10457250]) );
 	});
 
@@ -25,8 +27,18 @@ describe('unit', ()=>{
 	});
 
 	describe('#DtoDMS', ()=>{
-		it('should return 32°6\'" when value is 32.1', ()=>assert.equal(DtoDMS(32.1), "32°6'0\""));
+		it('should return 32°6\'" when value is 32.1', ()=>assert.equal(DtoDMS(32.1), "32°6'0\"") );
+		it('should return 32°16\'48" when value is 32.28', ()=>assert.equal(DtoDMS(32.28), "32°16'48\"") );
 		it('should return [32°6\'36", 111°6\'36"] when value is [32.11, 111.11]', ()=>assert.deepEqual(DtoDMS([32.11, 111.11]), ['32°6\'36"', '111°6\'36"']) );
+	});
+	
+	describe('#MtoD', ()=>{
+		it('should return [32.1, 111.1] when value is [3566666.67, 10457250.47]', ()=>assert.deepEqual(MtoD([3566666.67, 10457250.47], 1), [32.1, 111.1]) );
+	});
+	
+	describe('#DMStoD', ()=>{
+		it('should return 32.1 when value is 32°6\'0" ', ()=>assert.equal(DMStoD("32°6'0\""), 32.1) );
+		it('should return 32.28 when value is 32°16\'48" ', function(){} );
 	});
 });
 

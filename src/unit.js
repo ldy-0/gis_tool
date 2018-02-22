@@ -6,34 +6,38 @@
 
 
 /**
+ * xx°xx'xx" convert to longitude and latitude format
  * 度分秒转度
- * @param {Array|string} point
- * @param {Number} nub
+ * @param {Array|string} coords
+ * @param {Number} digits
  * @return {Array}
  */
-function DMStoD(point, nub = 0){
-	if(typeof point === 'string'){
-		let [d, ms] = point.split('°');
-		return Number(d)+ms.split('\'');
+function DMStoD(coords, digits = 0){
+	if(typeof coords === 'string'){
+		let [degree, ms] = coords.split('°'),
+			[minute, second] = ms.split('\'');
+		return Number(degree)+Number(minute)/60+parseInt(second)/600;
 	}
 
-	let [latitude, longitude] = point;
+	let [latitude, longitude] = coords;
 
 	return [];
 }
 
 /**
- * @param {Array} point
- * @param {Number} nub
+ * Meter to longitude and latitude format
+ * 米转经纬度
+ * @param {Array} coords
+ * @param {Number} digits
  * @return {Array}
  */
-function MtoD(point, nub = 0){
-	let [latitude, longitude] = point;
+function MtoD(coords, digits = 0){
+	let [latitude, longitude] = coords;
 
 	latitude /= 111111.1111;
 	longitude /= (111111.1111*cos(latitude));
 
-	return [Number(latitude.toFixed(nub)), Number(longitude.toFixed(nub))];
+	return [Number(latitude.toFixed(digits)), Number(longitude.toFixed(digits))];
 }
 
 
@@ -53,7 +57,7 @@ function DtoDMS(degree){
 	let minute = Number(str)/(10**(str.length-1))*6;
 	str = minute.toFixed(15).split('.')[1];
 	let second = Number(str)/(10**(str.length-1))*6;
-	return `${Math.floor(degree)}°${Math.floor(minute)}'${Math.floor(second)}"`;
+	return `${Math.floor(degree)}°${Math.floor(minute)}'${Math.round(second)}"`;
 }
 
 
@@ -150,9 +154,10 @@ module.exports = {
 	DtoM,
 	DtoKM,
 	DtoDMS,
+	MtoD,
+	DMStoD,
 };
 
-// console.log(DtoM([32.138073545, 114.0362319061], false));
-// console.log(DtoDMS([ 32.138073545, 114.0362319061]), '---');
+
 // console.log(MtoD(DtoM([32.136056165, 114.0420735061]), 9));
 
