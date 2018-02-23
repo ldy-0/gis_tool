@@ -3,6 +3,18 @@
  */
 
 'use strict';
+//待考证:乘数为3、6、7会出现双精度问题
+
+/**
+ * xx°xx'xx" convert to meter format
+ * 度分秒转米
+ * @param {Array} coords
+ * @param {Number} digits
+ * @return {Array}
+ */
+ function DMStoM(coords, digits = 0){
+	
+ }
 
 
 /**
@@ -16,12 +28,10 @@ function DMStoD(coords, digits = 0){
 	if(typeof coords === 'string'){
 		let [degree, ms] = coords.split('°'),
 			[minute, second] = ms.split('\'');
-		return Number(degree)+Number(minute)/60+parseInt(second)/600;
+		return Number(degree)+(Number(minute)+parseInt(second)/60)/60;
 	}
 
-	let [latitude, longitude] = coords;
-
-	return [];
+	return [DMStoD(coords[0], digits), DMStoD(coords[1], digits)];
 }
 
 /**

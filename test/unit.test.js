@@ -38,7 +38,8 @@ describe('unit', ()=>{
 	
 	describe('#DMStoD', ()=>{
 		it('should return 32.1 when value is 32°6\'0" ', ()=>assert.equal(DMStoD("32°6'0\""), 32.1) );
-		it('should return 32.28 when value is 32°16\'48" ', function(){} );
+		it('should return 32.28 when value is 32°16\'48" ', ()=>assert.equal(DMStoD('32°16\'48"'), 32.28) );
+		it('should return [32.11, 111.11] when value is [32°6\'36", 111°6\'36"]', ()=>assert.deepEqual(DMStoD(['32°6\'36"', '111°6\'36"']), [32.11, 111.11]) );
 	});
 });
 
