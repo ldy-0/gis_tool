@@ -1,0 +1,29 @@
+{
+  "name": "gis_tool",
+  "version": "0.0.1",
+  "description": "GIS工具库",
+  "main": "unit.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mocha": "^5.0.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/person-0/gis.git"
+  },
+  "keywords": [
+  ],
+  "author": "Yuan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/person-0/gis/issues"
+  },
+  "homepage": "https://github.com/person-0/gis#readme"
+}
