@@ -5,6 +5,7 @@
  
  'use strict'
  
+ 
  /**
   * Compute global Moran's
   * 全局莫兰指数
