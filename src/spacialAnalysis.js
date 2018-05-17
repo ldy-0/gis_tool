@@ -5,6 +5,41 @@
  
  'use strict'
  
+
+/**
+ *
+ * Normalization matrix / 归一化矩阵
+ *
+ * @param {String} input
+ * @param {String} output
+ */
+function normalization(input, output){
+	let arr = [],
+      sum = 0,
+      guiyi_arr = [],
+      ws = fs.createWriteStream(output);
+    
+	readRow(input, row=>{
+		arr.push(row.split(','));
+	}, ()=>{
+    
+		arr.forEach((val, index, a)=>{
+			sum = val.reduce((p, v, i, a)=>{
+				return p+Number(v);
+			}, sum);
+		});
+    
+		guiyi_arr = arr.map((val, index, a)=>{
+			let g_arr = val.map((v, i, a)=>{
+				return (Number(v)/sum).toFixed(7);
+			});
+			ws.write(g_arr+os.EOL);
+		});
+    
+	});
+  
+}
+
 /**
  *
  * Create spacial weight matrix / 创建空间权重矩阵
@@ -14,8 +49,8 @@
  */
 function SWM(input, output){
 	let arr = [],
-		weight_arr,
-		ws = fs.createWriteStream(output);
+      weight_arr,
+      ws = fs.createWriteStream(output);
     
 	readRow(input, row => {
     
