@@ -4,11 +4,31 @@
  */
  
  'use strict'
- 
 
 /**
  *
- * Normalization matrix / 归一化矩阵
+ * 1/2∑i = 1n∑j = 1n(wij+ wji)2
+ *
+ * @param {String} input file path
+ */
+function w1(input){
+	let sum = 0;
+  
+	readRow(input, row=>{
+    
+		sum = row.split(',').reduce((pre, val, index, arr)=>{
+			return pre+Math.pow(Number(val)*2, 2);
+		}, sum);
+    
+	}, ()=>{
+		console.log(sum/2);
+	});
+  
+}
+
+/**
+ *
+ * Normalization matrix / 归一化矩阵（总和归一化）
  *
  * @param {String} input
  * @param {String} output
