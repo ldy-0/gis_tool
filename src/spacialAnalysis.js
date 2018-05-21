@@ -7,6 +7,36 @@
 
 /**
  *
+ * 
+ *
+ * @param{String} input
+ */
+function w2(input){
+	let sum = 0,
+		weight_arr = [];
+    
+	readRow(input, row=>{
+    
+		weight_arr.push(row.split(','));
+    
+	}, ()=>{
+		weight_arr.forEach((val, index, arr)=>{
+			let row_sum = main.cumulate(val).sum;
+
+			sum = val.reduce((p, v, i, a)=>{
+				let column_sum = weight_arr.reduce((pre, va, ind, ar)=>{
+					return pre+Number(va[i]);
+				}, 0);
+				return p+(row_sum+column_sum)**2;
+			}, sum);
+
+		});
+		console.log(sum);
+	});
+}
+ 
+/**
+ *
  * 1/2∑i = 1n∑j = 1n(wij+ wji)2
  *
  * @param {String} input file path
